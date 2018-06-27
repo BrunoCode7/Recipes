@@ -227,7 +227,6 @@ package com.example.android.recipes;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -329,7 +328,6 @@ public class RecipesSteps extends AppCompatActivity implements OnStepClickListen
     }
 
 
-
     public static class PlaceholderFragment extends Fragment {
 
         ExoPlayer exoPlayer;
@@ -349,7 +347,6 @@ public class RecipesSteps extends AppCompatActivity implements OnStepClickListen
         }
 
 
-
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -365,8 +362,8 @@ public class RecipesSteps extends AppCompatActivity implements OnStepClickListen
             textView = view.findViewById(R.id.steps_description);
             mPlayerView = view.findViewById(R.id.player_view);
             vPlaceHolder = view.findViewById(R.id.video_place_holder);
-            stepThumbnail=view.findViewById(R.id.video_thumbnail);
-            frameLayout=view.findViewById(R.id.video_thumbnail_frame);
+            stepThumbnail = view.findViewById(R.id.video_thumbnail);
+            frameLayout = view.findViewById(R.id.video_thumbnail_frame);
             sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
 
             int orientation = this.getResources().getConfiguration().orientation;
@@ -375,13 +372,11 @@ public class RecipesSteps extends AppCompatActivity implements OnStepClickListen
                     vPlaceHolder.setVisibility(View.VISIBLE);
                     mPlayerView.setVisibility(View.GONE);
                     textView.setText(getArguments().getString("description"));
-
-
                 } else {
-                    if (getArguments().getString("thumbnailURL").equals("")){
+                    if (getArguments().getString("thumbnailURL").equals("")) {
                         textView.setText(getArguments().getString("description"));
-                    }else {
-                        String thumbnailString=getArguments().getString("thumbnailURL");
+                    } else {
+                        String thumbnailString = getArguments().getString("thumbnailURL");
                         textView.setText(getArguments().getString("description"));
                         mPlayerView.setVisibility(View.GONE);
                         GlideApp.with(getContext()).applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.loading).error(R.drawable.error)).load(thumbnailString).into(stepThumbnail);
@@ -410,10 +405,10 @@ public class RecipesSteps extends AppCompatActivity implements OnStepClickListen
                     }
                 } else {
                     if (this.getResources().getBoolean(R.bool.is_tablet)) {
-                        if (getArguments().getString("thumbnailURL").equals("")){
+                        if (getArguments().getString("thumbnailURL").equals("")) {
                             textView.setText(getArguments().getString("description"));
-                        }else {
-                            String thumbnailString=getArguments().getString("thumbnailURL");
+                        } else {
+                            String thumbnailString = getArguments().getString("thumbnailURL");
                             textView.setText(getArguments().getString("description"));
                             mPlayerView.setVisibility(View.GONE);
                             GlideApp.with(getContext()).applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.loading).error(R.drawable.error)).load(thumbnailString).into(stepThumbnail);
@@ -425,9 +420,10 @@ public class RecipesSteps extends AppCompatActivity implements OnStepClickListen
                                     frameLayout.setVisibility(View.GONE);
                                     mPlayerView.setVisibility(View.VISIBLE);
                                 }
-                            });                    }
+                            });
+                        }
 
-                }else {
+                    } else {
                         if (!getArguments().getString("thumbnailURL").equals("")) {
                             String thumbnailString = getArguments().getString("thumbnailURL");
                             textView.setText(getArguments().getString("description"));
@@ -442,22 +438,20 @@ public class RecipesSteps extends AppCompatActivity implements OnStepClickListen
                                     mPlayerView.setVisibility(View.VISIBLE);
                                 }
                             });
-                        }}}
+                        }
+                    }
+                }
             }
-
-
         }
+
 
         @Override
         public void onStart() {
             super.onStart();
             isStarted = true;
-            if (isVisible && isStarted && exoPlayer == null) {
+            if (isVisible && isStarted) {
                 viewDidAppear();
-            } else if (exoPlayer != null) {
-                exoPlayer.setPlayWhenReady(true);
             }
-
         }
 
         @Override
@@ -467,7 +461,6 @@ public class RecipesSteps extends AppCompatActivity implements OnStepClickListen
             if (isStarted && isVisible) {
                 viewDidAppear();
             } else if (isStarted && rootView != null && exoPlayer != null) {
-
                 exoPlayer.release();
                 exoPlayer.stop();
                 exoPlayer = null;
@@ -475,17 +468,21 @@ public class RecipesSteps extends AppCompatActivity implements OnStepClickListen
         }
 
         public void viewDidAppear() {
-            BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
-            TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
-            exoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector);
-            Uri uri = Uri.parse(getArguments().getString("url"));
-            DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("Recipes");
-            MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
-            exoPlayer.prepare(mediaSource);
-            mPlayerView.setPlayer(exoPlayer);
-            exoPlayer.seekTo(sharedPreferences.getLong("exoplayer_current_position", 0));
-            exoPlayer.setPlayWhenReady(true);
+            if (exoPlayer == null) {
+                BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter();
+                TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
+                exoPlayer = ExoPlayerFactory.newSimpleInstance(getContext(), trackSelector);
+                Uri uri = Uri.parse(getArguments().getString("url"));
+                DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("Recipes");
+                MediaSource mediaSource = new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
+                exoPlayer.prepare(mediaSource);
+                mPlayerView.setPlayer(exoPlayer);
+                exoPlayer.setPlayWhenReady(true);
+                exoPlayer.seekTo(sharedPreferences.getLong("exoplayer_current_position", 0));
+
+            }
         }
+
 
         @Override
         public void onPause() {
@@ -509,6 +506,7 @@ public class RecipesSteps extends AppCompatActivity implements OnStepClickListen
             }
         }
     }
-
-
 }
+
+
+

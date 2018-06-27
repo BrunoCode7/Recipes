@@ -5,7 +5,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -48,7 +47,6 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.it
     private JsonArrayRequest arrayRequest;
     private RecipesAdapter recipesAdapter;
     private ArrayList<Recipe> recipesList;
-    private final static String RECIPES_URL= URL_STRING;
 
     @Nullable
     private SimpleIdlingResource mIdlingResource;
