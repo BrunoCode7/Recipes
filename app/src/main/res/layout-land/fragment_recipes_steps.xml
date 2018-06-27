@@ -23,6 +23,25 @@
         android:textColor="@color/colorTextIcon"
         android:background="@android:color/black"
         android:textSize="20sp"/>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:visibility="gone"
+        android:id="@+id/video_thumbnail_frame"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:id="@+id/video_thumbnail"
+            android:gravity="center" />
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/play"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"/>
+    </FrameLayout>
 
 
 

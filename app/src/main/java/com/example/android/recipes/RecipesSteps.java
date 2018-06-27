@@ -242,11 +242,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.request.RequestOptions;
 import com.example.android.recipes.models.Recipe;
 import com.example.android.recipes.models.Steps;
 import com.example.android.recipes.fragments.ListFragment;
+import com.example.android.recipes.utilities.GlideApp;
 import com.example.android.recipes.utilities.OnStepClickListener;
 
 import com.example.android.recipes.fragments.VideoFragment;
@@ -303,8 +307,6 @@ public class RecipesSteps extends AppCompatActivity implements OnStepClickListen
             fragmentTransaction.add(R.id.main_content, listFragment, "lfragment");
             fragmentTransaction.commit();
         } else {
-            RecipesSteps.this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
             fragmentTransaction.add(R.id.main_content, listFragment, "lfragment");
             fragmentTransaction.add(R.id.video_content, videoFragment, "vfragment");
             fragmentTransaction.commit();
@@ -335,6 +337,8 @@ public class RecipesSteps extends AppCompatActivity implements OnStepClickListen
         private PlayerView mPlayerView;
         private TextView textView;
         private TextView vPlaceHolder;
+        private ImageView stepThumbnail;
+        private FrameLayout frameLayout;
         private Boolean isStarted = false;
         private Boolean isVisible = false;
         SharedPreferences sharedPreferences;
@@ -361,6 +365,8 @@ public class RecipesSteps extends AppCompatActivity implements OnStepClickListen
             textView = view.findViewById(R.id.steps_description);
             mPlayerView = view.findViewById(R.id.player_view);
             vPlaceHolder = view.findViewById(R.id.video_place_holder);
+            stepThumbnail=view.findViewById(R.id.video_thumbnail);
+            frameLayout=view.findViewById(R.id.video_thumbnail_frame);
             sharedPreferences = getActivity().getPreferences(Context.MODE_PRIVATE);
 
             int orientation = this.getResources().getConfiguration().orientation;
@@ -372,7 +378,24 @@ public class RecipesSteps extends AppCompatActivity implements OnStepClickListen
 
 
                 } else {
-                    textView.setText(getArguments().getString("description"));
+                    if (getArguments().getString("thumbnailURL").equals("")){
+                        textView.setText(getArguments().getString("description"));
+                    }else {
+                        String thumbnailString=getArguments().getString("thumbnailURL");
+                        textView.setText(getArguments().getString("description"));
+                        mPlayerView.setVisibility(View.GONE);
+                        GlideApp.with(getContext()).applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.loading).error(R.drawable.error)).load(thumbnailString).into(stepThumbnail);
+                        frameLayout.setVisibility(View.VISIBLE);
+
+                        stepThumbnail.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                frameLayout.setVisibility(View.GONE);
+                                mPlayerView.setVisibility(View.VISIBLE);
+                            }
+                        });
+                    }
+
                 }
             } else {
 
@@ -387,10 +410,39 @@ public class RecipesSteps extends AppCompatActivity implements OnStepClickListen
                     }
                 } else {
                     if (this.getResources().getBoolean(R.bool.is_tablet)) {
-                        textView.setText(getArguments().getString("description"));
-                    }
+                        if (getArguments().getString("thumbnailURL").equals("")){
+                            textView.setText(getArguments().getString("description"));
+                        }else {
+                            String thumbnailString=getArguments().getString("thumbnailURL");
+                            textView.setText(getArguments().getString("description"));
+                            mPlayerView.setVisibility(View.GONE);
+                            GlideApp.with(getContext()).applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.loading).error(R.drawable.error)).load(thumbnailString).into(stepThumbnail);
+                            frameLayout.setVisibility(View.VISIBLE);
 
-                }
+                            stepThumbnail.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    frameLayout.setVisibility(View.GONE);
+                                    mPlayerView.setVisibility(View.VISIBLE);
+                                }
+                            });                    }
+
+                }else {
+                        if (!getArguments().getString("thumbnailURL").equals("")) {
+                            String thumbnailString = getArguments().getString("thumbnailURL");
+                            textView.setText(getArguments().getString("description"));
+                            mPlayerView.setVisibility(View.GONE);
+                            GlideApp.with(getContext()).applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.loading).error(R.drawable.error)).load(thumbnailString).into(stepThumbnail);
+                            frameLayout.setVisibility(View.VISIBLE);
+
+                            stepThumbnail.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    frameLayout.setVisibility(View.GONE);
+                                    mPlayerView.setVisibility(View.VISIBLE);
+                                }
+                            });
+                        }}}
             }
 
 

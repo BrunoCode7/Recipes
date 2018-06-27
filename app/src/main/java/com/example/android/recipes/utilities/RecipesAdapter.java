@@ -47,19 +47,25 @@ public class RecipesAdapter extends RecyclerView.Adapter<RecipesAdapter.RecipesV
     @Override
     public void onBindViewHolder(@NonNull final RecipesViewHolder holder, int position) {
         Recipe recipe = data.get(position);
-        switch (recipe.getName()) {
-            case ("Nutella Pie"):
-                GlideApp.with(context).applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.loading).error(R.drawable.error)).load(R.drawable.nutella_pie).into(holder.recipepicture);
-                break;
-            case ("Brownies"):
-                GlideApp.with(context).applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.loading).error(R.drawable.error)).load(R.drawable.brownies).into(holder.recipepicture);
-                break;
-            case ("Yellow Cake"):
-                GlideApp.with(context).applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.loading).error(R.drawable.error)).load(R.drawable.yellow_cake).into(holder.recipepicture);
-                break;
-            case ("Cheesecake"):
-                GlideApp.with(context).applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.loading).error(R.drawable.error)).load(R.drawable.cheesecake).into(holder.recipepicture);
-                break;
+        if (recipe.getImage().equals("")){
+            switch (recipe.getName()) {
+                case ("Nutella Pie"):
+                    GlideApp.with(context).applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.loading).error(R.drawable.error)).load(R.drawable.nutella_pie).into(holder.recipepicture);
+                    break;
+                case ("Brownies"):
+                    GlideApp.with(context).applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.loading).error(R.drawable.error)).load(R.drawable.brownies).into(holder.recipepicture);
+                    break;
+                case ("Yellow Cake"):
+                    GlideApp.with(context).applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.loading).error(R.drawable.error)).load(R.drawable.yellow_cake).into(holder.recipepicture);
+                    break;
+                case ("Cheesecake"):
+                    GlideApp.with(context).applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.loading).error(R.drawable.error)).load(R.drawable.cheesecake).into(holder.recipepicture);
+                    break;
+        }
+
+        }else {
+            GlideApp.with(context).applyDefaultRequestOptions(new RequestOptions().placeholder(R.drawable.loading).error(R.drawable.error)).load(recipe.getImage()).into(holder.recipepicture);
+
         }
         holder.recipeName.setText(recipe.getName());
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {

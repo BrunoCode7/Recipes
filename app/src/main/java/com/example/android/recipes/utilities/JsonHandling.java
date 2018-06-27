@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 
 /**
@@ -20,10 +21,12 @@ public class JsonHandling {
         ArrayList<Recipe> RecipesList=new ArrayList<>();
 
         String recipeName;
+        String image;
 
         for (int r=0;r<recipeJsonArray.length();r++){
              JSONObject recipeJsonObject=recipeJsonArray.getJSONObject(r);
               recipeName=recipeJsonObject.getString("name");
+              image=recipeJsonObject.getString("image");
              JSONArray ingredientsJsonArray=recipeJsonObject.getJSONArray("ingredients");
             JSONArray stepsJsonArray=recipeJsonObject.getJSONArray("steps");
             ArrayList<Ingredient> ingredientsList =new ArrayList<>();
@@ -46,7 +49,7 @@ public class JsonHandling {
                 Steps step=new Steps(stepShortDescription,superscription,stepVideoUrl,stepThumbnailUrl);
                 stepsList.add(step);
             }
-            Recipe recipe=new Recipe(ingredientsList,stepsList,recipeName);
+            Recipe recipe=new Recipe(ingredientsList,stepsList,recipeName,image);
             RecipesList.add(recipe);
         }
         return RecipesList;

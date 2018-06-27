@@ -65,14 +65,10 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.it
             recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
             fetchData();
         } else {
-            MainActivity.this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
             recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
 
             fetchData();
-
-
-
 
         }
 
@@ -102,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements RecipesAdapter.it
     //Helper method to fetch the JSON data
     public void fetchData() {
                 // you can change the Recipes RECIPES_URL with your Link String
-        arrayRequest = new JsonArrayRequest(Request.Method.GET,RECIPES_URL, null,
+        arrayRequest = new JsonArrayRequest(Request.Method.GET,"https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json", null,
                 new Response.Listener<JSONArray>() {
                     @Override
                     public void onResponse(JSONArray response) {

@@ -8,10 +8,5 @@
     tools:context=".RecipesSteps"
     android:orientation="horizontal">
 
-    <!--<fragment-->
-        <!--android:id="@+id/list_fragment"-->
-        <!--android:name="com.example.android.recipes.fragments.ListFragment"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent" />-->
 
 </LinearLayout>
