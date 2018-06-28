@@ -38,7 +38,6 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-import static com.example.android.recipes.BuildConfig.URL_STRING;
 
 
 public class MainActivity extends AppCompatActivity implements RecipesAdapter.itemClickListener {
