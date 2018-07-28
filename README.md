@@ -4,9 +4,6 @@ Baking App (Udacity project, Stage 3) is a project requested by Udacity during t
 ## What the app do:
 Allow a user to select a recipe and see video-guided steps for how to complete it.
 
-###### Important note:
-The App won't work as it doesn't contain the RECIPIES API URL.
-
 ## What have i learnt:
 1. Use MediaPlayer/Exoplayer to display videos.
 2. Handle error cases in Android.
